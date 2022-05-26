@@ -9,4 +9,12 @@ Department.belongsTo(Employee, {
 foreignKey: 'employee_id'
 });
 
-module.exports = { Employee, Department };
+Employee.hasOne(Role, {
+    foreignKey: 'employee_id',
+});
+  
+Role.belongsTo(Employee, {
+foreignKey: 'employee_id'
+});
+
+module.exports = { Employee, Department, Role };

@@ -1,9 +1,9 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-class Department extends Model {}
+class Role extends Model {}
 
-Book.init(
+Role.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -11,20 +11,15 @@ Book.init(
         primaryKey: true,
         autoIncrement: true
       },
-      dept_name: {
+      job_title: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      edition: {
-        type: DataTypes.INTEGER,
-        defaultValue: 1
+      department: {        
+        type: DataTypes.STRING,
+        allowNull: false
       },
-      is_paperback: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true
-      },
-      //fk pattern should follow model then _ then primary key name format
-      employee_id: {        
+      salary: {
         type: DataTypes.INTEGER,
         reference: {
             model:'Employee',
@@ -36,9 +31,9 @@ Book.init(
       sequelize,
       timestamps: false,
       underscored: true,
-      modelName: 'Department'
+      modelName: 'Role'
     }
   );
   
-  module.exports = Department;
+  module.exports = Role;
   
