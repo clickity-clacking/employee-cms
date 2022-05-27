@@ -16,13 +16,23 @@ Employee.init(
       l_name: {
         type: DataTypes.STRING
       },
+      role: {
+        type: DataTypes.STRING,
+        reference: {
+            model:'Role',
+            key:'id'   
+          }
+      },
       role_salary: {
         type: DataTypes.INTEGER,
         reference: {
             model:'Role',
             key:'id'   
           }
-      }
+      },
+      manager: {
+        type: DataTypes.STRING
+      },
     },
     {
       sequelize,
