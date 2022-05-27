@@ -33,7 +33,7 @@ Role.init(
       underscored: true,
       modelName: 'Role'
     }
-  );
+);
   
-  module.exports = Role;
+module.exports = Role;
   
