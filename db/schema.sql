@@ -4,12 +4,14 @@ CREATE DATABASE employee_crm_db;
 USE employee_crm_db;
 
 CREATE TABLE departments (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    department_id INT NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (id),
     name VARCHAR(30)
 );
 
 CREATE TABLE roles (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    role_id INT NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (id),
     title VARCHAR(30),
     salary DECIMAL(10,2),
     department_id INT,
@@ -17,11 +19,16 @@ CREATE TABLE roles (
 );
 
 CREATE TABLE employees(
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id INT NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (id),
     first_name VARCHAR(30),
     last_name VARCHAR(30),
-    role_id INT NOT NULL,
-    FOREIGN KEY (role_id) REFERENCES roles(id),
-    manager_id INT,
-    FOREIGN KEY (manager_id) REFERENCES employees(id)
+    role_name VARCHAR(30),
+    department_id INT,
+    FOREIGN KEY (department_id) REFERENCES departments(department_id),
+    salary INT,
+    FOREIGN KEY (salary) REFERENCES departments(department_id),
+    manager_name VARCHAR(30),
+    id INT,
+    FOREIGN KEY (id) REFERENCES employees(id)
 );

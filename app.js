@@ -106,7 +106,7 @@ const questions = [
     {
         type: 'input',
         name: 'addEmployeeRole',
-        message: "What is the role of the employee?",
+        message: "What is the employee's role?",
         when: (answers) => answers.action === "add an employee",
         validate: addEmployeeRole => {
             if (addEmployeeRole) {
@@ -120,13 +120,33 @@ const questions = [
     {
         type: 'input',
         name: 'addEmployeeManager',
-        message: "What is the id of the employee's manager?",
-        when: (answers) => answers.action === "add an employee",
-        validate: addEmployeeManager => {
-            if (addEmployeeManager) {
+        message: "Who is the employee's manager?",
+        when: (answers) => answers.action === "add an employee"
+    },
+    {
+        type: 'input',
+        name: 'updateEmployeeId',
+        message: "What is the id of the employee you'd like to update?",
+        when: (answers) => answers.action === "update an employee role",
+        validate: updateEmployeeId => {
+            if (updateEmployeeId) {
                 return true;
             } else {
-                console.log("Please add a manager")
+                console.log("Please specify an employee")
+                return false;
+            }
+        }
+    },
+    {
+        type: 'input',
+        name: 'updateEmployeeRole',
+        message: "What role id would you like to update the employee to?",
+        when: (answers) => answers.action === "update an employee role",
+        validate: updateEmployeeId => {
+            if (updateEmployeeId) {
+                return true;
+            } else {
+                console.log("Please specify a role id")
                 return false;
             }
         }
@@ -145,6 +165,14 @@ async function init(questions) {
     } else if (answers.action === 'view employees'){
         // presented with a formatted table showing employee data, including employee ids, first names, last names, job titles, departments, salaries, and managers that the employees report to
         displayEmployees();
+    } else if (answers.action === 'add a department'){
+        addDepartment(answers);
+    } else if (answers.action === 'add a role'){
+        addRole(answers);
+    } else if (answers.action === 'add an employee'){
+        addEmployee(answers);
+    } else if (answers.action === 'update an employee role'){
+        updateEmployee();
     }
 };
 
@@ -182,6 +210,38 @@ function displayEmployees() {
         }
     );
 };
+
+function addDepartment(answers) {
+    // simple query
+    connection.query(
+        "INSERT INTO departments (name) VALUES (?)", [answers.addDepartment],
+        function(err, result) {
+            init(questions);
+        }
+    );
+};
+
+function addRole(answers) {
+    // simple query
+    connection.query(
+        "INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)", [answers.addRoleName, answers.addRoleSalary, answers.addRoleDepartment],
+        function(err, result) {
+            init(questions);
+        }
+    );
+};
+
+function addEmployee(answers) {
+    // simple query
+    connection.query(
+        "INSERT INTO employees (first_name, last_name, role_name, manager_name) VALUES (?, ?, ?, ?)", [answers.addEmployeeFn, answers.addEmployeeLn, answers.addEmployeeRole, answers.addEmployeeManager],
+        function(err, result) {
+            init(questions);
+        }
+    );
+};
+
+
 
 connection.connect(
     console.log(connection.id),
